@@ -1,0 +1,29 @@
+---
+title: 'Environments'
+description: 'Use the correct Cardcore base URL for sandbox testing and production rollout.'
+---
+
+## Sandbox
+
+Use the sandbox environment while you build and test:
+
+```text
+https://sandbox-api.cardcore.cloud
+```
+
+Use sandbox to validate authentication, request payloads, and response handling before you move to production.
+
+## Production
+
+Use the production environment after your team completes onboarding and receives live credentials:
+
+```text
+https://api.cardcore.cloud
+```
+
+## Before you switch environments
+
+- Confirm that your application points to the correct base URL
+- Update your client assertion `aud` value to match the active environment
+- Replace sandbox credentials with production credentials
+- Re-test authentication before sending live traffic

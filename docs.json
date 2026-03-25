@@ -1,122 +1,129 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Cloudcard Developer Docs",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/dark.svg",
+    "dark": "/logo/light.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:root@sudo.africa"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get API Key",
+      "href": "https://card-core-institution-sandbox.sudoafrica.site/signin"
+    }
+  },
   "navigation": {
     "tabs": [
       {
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Overview",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "environments",
+              "postman-collection",
+              "authentication",
+              "errors",
+              "metadata",
+              "pagination",
+              "lecture"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Getting Started",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "sign-up",
+              "create-api-key",
+              "get-started",
+              "setup-webhooks",
+              "creating-card-programs",
+              "creating-cards",
+              "onboarding"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Institution OAuth",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/institution-oauth/oauth-token",
+              "api-reference/institution-oauth/list-oauth-applications",
+              "api-reference/institution-oauth/create-oauth-application",
+              "api-reference/institution-oauth/update-oauth-application",
+              "api-reference/institution-oauth/delete-oauth-application",
+              "api-reference/institution-oauth/create-oauth-authorization"
+            ]
+          },
+          {
+            "group": "Institution Cards",
+            "pages": [
+              "api-reference/institution-cards/create-card",
+              "api-reference/institution-cards/activate-card",
+              "api-reference/institution-cards/deactivate-card",
+              "api-reference/institution-cards/change-card-pin",
+              "api-reference/institution-cards/reset-card-pin",
+              "api-reference/institution-cards/renew-card",
+              "api-reference/institution-cards/get-digitization-code",
+              "api-reference/institution-cards/update-card-customer",
+              "api-reference/institution-cards/update-card-digitization",
+              "api-reference/institution-cards/enroll-cards-2fa",
+              "api-reference/institution-cards/get-default-pin"
+            ]
+          },
+          {
+            "group": "Institution Users",
+            "pages": [
+              "api-reference/institution-users/update-institution-user",
+              "api-reference/institution-users/invite-institution-user",
+              "api-reference/institution-users/resend-institution-user-invitation",
+              "api-reference/institution-users/get-institution-permissions"
+            ]
+          },
+          {
+            "group": "Utility",
+            "pages": [
+              "api-reference/utility/get-banks",
+              "api-reference/utility/name-enquiry",
+              "api-reference/utility/import-card"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+    ]
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   }
 }

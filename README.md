@@ -1,55 +1,29 @@
-# Mintlify Starter Kit
+# Cloudcard Developer Docs
 
-Use the starter kit to get your docs deployed and ready to customize.
+Mintlify documentation for the Cardcore API.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Local preview
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
-
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
+Mintlify does not support Node 25.x for local preview in this environment. Use the installed Node 22 runtime instead:
 
 ```bash
-npx skills add https://mintlify.com/docs
+export PATH="$HOME/.nvm/versions/node/v22.22.1/bin:$PATH"
+mintlify dev
 ```
 
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
+The default preview URL is `http://localhost:3000`.
 
-See the [AI tools guides](/ai-tools) for tool-specific setup.
+## Project structure
 
-## Development
+- `api-reference/openapi.json`: the OpenAPI file used by Mintlify endpoint pages.
+- `docs.json`: site navigation and top-level configuration.
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+## Known API coverage gaps
 
-```
-npm i -g mint
-```
+These flows still need confirmed route details:
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+- `List Institution Transactions`
+- `List Institution Users`
+- `Generate RSA Key`
 
-```
-mint dev
-```
-
-View your local preview at `http://localhost:3000`.
-
-## Publishing changes
-
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+Those operations are noted in the guides, but they are not exposed as live API playground pages until their routes are confirmed.

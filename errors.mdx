@@ -1,0 +1,24 @@
+---
+title: 'Errors'
+description: 'Use common troubleshooting checks when a Cardcore request fails.'
+---
+
+## Common causes
+
+Most request failures come from one of these issues:
+
+- Invalid or expired bearer token
+- Wrong `institutionId`
+- Incorrect environment URL
+- Missing required request fields
+- Invalid encrypted payload values for secure card operations
+
+## Troubleshooting checklist
+
+When a request fails:
+
+1. Confirm you are using the correct environment URL.
+2. Confirm your token is still valid.
+3. Check that required headers are present.
+4. Compare your payload with the example in the API reference.
+5. Re-run the request with a fresh OAuth token if needed.

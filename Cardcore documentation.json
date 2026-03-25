@@ -1,0 +1,1318 @@
+{
+  "info": {
+    "_postman_id": "ff52dbda-f081-424c-ae94-c2a9922bd5fc",
+    "name": "CardCore pubic",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14556336"
+  },
+  "item": [
+    {
+      "name": "Institution OAuth",
+      "item": [
+        {
+          "name": "List OAuth Applications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/oauth/applications",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "oauth",
+                "applications"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "banking",
+                  "disabled": true
+                },
+                {
+                  "key": "isVerified",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "isOfficial",
+                  "value": "false",
+                  "disabled": true
+                },
+                {
+                  "key": "grantType",
+                  "value": "client_credentials",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List OAuth applications for the authenticated institution."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete OAuth Application",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/oauth/{{institutionId}}",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "oauth",
+                "{{institutionId}}"
+              ]
+            },
+            "description": "Delete an OAuth authorization/application by id."
+          },
+          "response": []
+        },
+        {
+          "name": "Create OAuth Application",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Banking App\",\n  \"description\": \"Banking application for managing customer accounts and transactions\",\n  \"publicKey\": \"-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkq...\\n-----END PUBLIC KEY-----\",\n  \"scopes\": [\n    \"READ\",\n    \"WRITE\"\n  ],\n  \"grantType\": \"client_credentials\",\n  \"websiteUrl\": \"https://myapp.com\",\n  \"iconUrl\": \"https://myapp.com/icon.png\",\n  \"isOfficial\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/oauth/create",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "oauth",
+                "create"
+              ]
+            },
+            "description": "Register an OAuth application for an institution."
+          },
+          "response": []
+        },
+        {
+          "name": "Update OAuth Application",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Banking App\",\n  \"description\": \"Updated description\",\n  \"websiteUrl\": \"https://myapp.com\",\n  \"scopes\": [\n    \"READ\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/oauth/{{institutionId}}",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "oauth",
+                "{{institutionId}}"
+              ]
+            },
+            "description": "Update an OAuth application."
+          },
+          "response": []
+        },
+        {
+          "name": "OAuth Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Response is JSON\", function () {",
+                  "  pm.response.to.have.header(\"Content-Type\");",
+                  "});",
+                  "let data = {};",
+                  "try { data = pm.response.json(); } catch (error) {}",
+                  "const candidates = [\"data.accessToken\",\"accessToken\"];",
+                  "function pick(obj, path) {",
+                  "  return path.split(\".\").reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);",
+                  "}",
+                  "for (const path of candidates) {",
+                  "  const value = pick(data, path);",
+                  "  if (typeof value === \"string\" && value.length > 0) {",
+                  "    pm.collectionVariables.set(\"oauthToken\", value);",
+                  "    break;",
+                  "  }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let data = {};",
+                  "try { data = pm.response.json(); } catch (error) {}",
+                  "const refreshToken = data?.data?.refreshToken || data?.refreshToken;",
+                  "if (typeof refreshToken === \"string\" && refreshToken.length > 0) {",
+                  "  pm.collectionVariables.set(\"oauthRefreshToken\", refreshToken);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"grant_type\": \"client_credentials\",\n  \"institutionId\": \"{{institutionId}}\",\n  \"client_assertion_type\": \"urn:ietf:params:oauth:client-assertion-type:jwt-bearer\",\n  \"client_assertion\": \"paste-client-assertion-jwt-here\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/oauth/token",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "oauth",
+                "token"
+              ]
+            },
+            "description": "Exchange client assertion for access token. Also captures `{{oauthToken}}` and `{{oauthRefreshToken}}`."
+          },
+          "response": []
+        },
+        {
+          "name": "Create OAuth Authorization",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"institutionId\": \"{{institutionId}}\",\n  \"redirectUri\": \"https://example.com/callback\",\n  \"responseType\": \"code\",\n  \"state\": \"xyz123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/oauth/authorization",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "oauth",
+                "authorization"
+              ]
+            },
+            "description": "Create an OAuth authorization code grant authorization."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Institution Cards",
+      "item": [
+        {
+          "name": "Create Card",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardProgram\": \"{{cardProgramId}}\",\n  \"referenceCode\": \"CARD123456\",\n  \"pinEnabled\": true,\n  \"defaultPIN\": {\n    \"encryptedData\": \"7f8d92h3k4j5l6\",\n    \"publicKeyFingerprint\": \"a884d7744252e1ec674983a91e6\"\n  },\n  \"account\": {\n    \"currency\": \"NGN\",\n    \"type\": \"default\",\n    \"number\": \"1234567890\"\n  },\n  \"customer\": {\n    \"firstName\": \"John\",\n    \"middleName\": \"Robert\",\n    \"lastName\": \"Doe\",\n    \"emailAddress\": \"john.doe@example.com\",\n    \"phoneNumber\": \"+2341234567890\",\n    \"honorific\": \"Mr\",\n    \"gender\": \"M\",\n    \"dateOfBirth\": \"1990-01-01T00:00:00.000Z\",\n    \"address\": {\n      \"line1\": \"123 Main Street\",\n      \"line2\": \"Apt 4B\",\n      \"city\": \"Lagos\",\n      \"state\": \"Lagos\",\n      \"country\": \"Nigeria\",\n      \"postalCode\": \"100001\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards"
+              ]
+            },
+            "description": "Create a single card."
+          },
+          "response": []
+        },
+        {
+          "name": "Activate Card",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/activate",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "activate"
+              ]
+            },
+            "description": "Activate a card."
+          },
+          "response": []
+        },
+        {
+          "name": "Deactivate Card",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/deactivate",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "deactivate"
+              ]
+            },
+            "description": "Deactivate a card."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Card PIN",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldPIN\": {\n    \"encryptedData\": \"7f8d92h3k4j5l6\",\n    \"publicKeyFingerprint\": \"a884d7744252e1ec674983a91e6\"\n  },\n  \"newPIN\": {\n    \"encryptedData\": \"9f8d92h3k4j5l6\",\n    \"publicKeyFingerprint\": \"a884d7744252e1ec674983a91e6\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/pin/{{cardId}}/change",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "pin",
+                "{{cardId}}",
+                "change"
+              ]
+            },
+            "description": "Change card PIN using encrypted pin blocks."
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Card PIN",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newPIN\": {\n    \"encryptedData\": \"9f8d92h3k4j5l6\",\n    \"publicKeyFingerprint\": \"a884d7744252e1ec674983a91e6\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/pin/{{cardId}}/reset",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "pin",
+                "{{cardId}}",
+                "reset"
+              ]
+            },
+            "description": "Reset card PIN."
+          },
+          "response": []
+        },
+        {
+          "name": "Renew Card",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"expiration\": \"202705\",\n  \"renewReason\": \"RENEW\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/renew",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "renew"
+              ]
+            },
+            "description": "Renew/replace a card."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Digitization Code",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/digitization",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "digitization"
+              ]
+            },
+            "description": "Get card digitization code."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Card Customer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"middleName\": \"Robert\",\n  \"lastName\": \"Doe\",\n  \"emailAddress\": \"john.doe@example.com\",\n  \"phoneNumber\": \"+2341234567890\",\n  \"dateOfBirth\": \"1990-01-01T00:00:00.000Z\",\n  \"address\": {\n    \"line1\": \"123 Main Street\",\n    \"line2\": \"Apt 4B\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\",\n    \"postalCode\": \"100001\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/customer",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "customer"
+              ]
+            },
+            "description": "Update cardholder details."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Card Digitization",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enableDigitization\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/digitization",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "digitization"
+              ]
+            },
+            "description": "Enable or disable card digitization."
+          },
+          "response": []
+        },
+        {
+          "name": "Enroll Cards 2FA",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardIds\": [\n    \"{{cardId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/enroll2fa",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "enroll2fa"
+              ]
+            },
+            "description": "Enroll one or more cards into 2FA."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Default PIN",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/cards/{{cardId}}/default-pin",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "cards",
+                "{{cardId}}",
+                "default-pin"
+              ]
+            },
+            "description": "Fetch the card default PIN payload."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Institution Transactions",
+      "item": [
+        {
+          "name": "List Institution Transactions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "",
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "rrn",
+                  "disabled": true
+                },
+                {
+                  "key": "responsecode",
+                  "value": "00",
+                  "disabled": true
+                },
+                {
+                  "key": "dateFrom",
+                  "value": "2025-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "dateTo",
+                  "value": "2025-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "amountMin",
+                  "value": "100",
+                  "disabled": true
+                },
+                {
+                  "key": "amountMax",
+                  "value": "50000",
+                  "disabled": true
+                },
+                {
+                  "key": "cardStatus",
+                  "value": "active",
+                  "disabled": true
+                },
+                {
+                  "key": "cardType",
+                  "value": "Debit",
+                  "disabled": true
+                },
+                {
+                  "key": "cardScheme",
+                  "value": "Verve",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Institution transaction list."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Institution Users",
+      "item": [
+        {
+          "name": "List Institution Users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "",
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "john",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "active",
+                  "disabled": true
+                },
+                {
+                  "key": "isBlocked",
+                  "value": "false",
+                  "disabled": true
+                },
+                {
+                  "key": "emailAddressVerified",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "twoFactorAuthEnabled",
+                  "value": "false",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List institution users. Can also be called with an OAuth token if scope/permissions allow it."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Institution User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"emailAddress\": \"john.doe@examplebank.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"status\": \"active\",\n  \"isBlocked\": false,\n  \"roles\": [\n    {\n      \"role\": \"INSTITUTION_USER\",\n      \"permissions\": [\n        \"read:user\",\n        \"update:user\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/users/{{institutionUserId}}/update",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "users",
+                "{{institutionUserId}}",
+                "update"
+              ]
+            },
+            "description": "Update an institution user."
+          },
+          "response": []
+        },
+        {
+          "name": "Invite Institution User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"emailAddress\": \"john.doe@examplebank.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"roles\": [\n    {\n      \"role\": \"INSTITUTION_USER\",\n      \"permissions\": [\n        \"read:user\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/users/invite",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "users",
+                "invite"
+              ]
+            },
+            "description": "Invite an institution user."
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Institution User Invitation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{institutionToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{institutionToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/users/{{institutionUserId}}/resend-invitation",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "users",
+                "{{institutionUserId}}",
+                "resend-invitation"
+              ]
+            },
+            "description": "Resend an institution user invitation."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Institution Permissions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/institutions/users/permissions",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "institutions",
+                "users",
+                "permissions"
+              ]
+            },
+            "description": "Public endpoint returning available institution permissions."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Utility",
+      "item": [
+        {
+          "name": "Get Banks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/util/banks",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "util",
+                "banks"
+              ]
+            },
+            "description": "Public bank list."
+          },
+          "response": []
+        },
+        {
+          "name": "Name Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bankCode\": \"000002\",\n  \"accountNumber\": \"0123456789\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/util/name-enquiry",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "util",
+                "name-enquiry"
+              ]
+            },
+            "description": "Public bank account name enquiry."
+          },
+          "response": []
+        },
+        {
+          "name": "Generate RSA Key",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "",
+              "query": [
+                {
+                  "key": "institutionId",
+                  "value": "{{institutionId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "scheme",
+                  "value": "Verve",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Generate / fetch RSA key data used in card-related encryption flows."
+          },
+          "response": []
+        },
+        {
+          "name": "Import Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"realId\": \"9511139210001000\",\n  \"active\": true,\n  \"startDate\": \"2025-04-24\",\n  \"endDate\": \"2028-04-30\",\n  \"firstName\": \"KADAVRA\",\n  \"lastName\": \"CARD\",\n  \"middleName\": \"TEST\",\n  \"email\": \"root@sudo.africa\",\n  \"address1\": \"43 Ademola Adetokunbo\",\n  \"address2\": \"Wuse II\",\n  \"city\": \"Abuja\",\n  \"state\": \"FCT\",\n  \"zip\": \"100001\",\n  \"country\": \"Nigeria\",\n  \"birthDate\": \"1990-01-01\",\n  \"phone\": \"2348061996040\",\n  \"institutionId\": \"00000000001\",\n  \"card\": {\n    \"expiration\": \"202804\",\n    \"serviceCode\": \"601\",\n    \"cardProduct\": \"AfriGoPCard\",\n    \"embossingName\": \"KADAVRA CARD\",\n    \"defaultPIN\": \"XXXX\",\n    \"bin\": \"5640325100\",\n    \"cardState\": \"active\"\n  },\n  \"returnSecure\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{scheme}}://{{baseUrl}}/util/cards/import",
+              "protocol": "{{scheme}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "util",
+                "cards",
+                "import"
+              ]
+            },
+            "description": "Import an existing card into the system. Requires `x-api-key`."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "scheme",
+      "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "institutionId",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+---
+title: 'Pagination'
+description: 'Use page and limit query parameters when you list Cardcore resources.'
+---
+
+## Overview
+
+List endpoints commonly support pagination through `page` and `limit` query parameters.
+
+Typical example:
+
+```http
+GET /institutions/oauth/applications?page=1&limit=20
+```
+
+## Recommended usage
+
+- Start with `page=1`
+- Use a sensible `limit` such as `20`
+- Increase the page number until you have processed the full result set

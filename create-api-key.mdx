@@ -1,0 +1,18 @@
+---
+title: 'Create API key'
+description: 'Use an API key for the endpoints that require x-api-key authentication.'
+---
+
+## Overview
+
+Most Cardcore institution operations use bearer tokens. Some utility flows such as `Import Card` use `x-api-key`.
+
+## Next step
+
+Once you receive your API key, pass it in the request header:
+
+```http
+x-api-key: {{apiKey}}
+```
+
+Store the key securely and do not expose it in frontend applications.

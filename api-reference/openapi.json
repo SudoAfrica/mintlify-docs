@@ -1,94 +1,803 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Cardcore API",
+    "version": "1.0.0",
+    "description": "OpenAPI reference generated from the Cardcore Postman collection in this repository."
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://sandbox-api.cardcore.cloud",
+      "description": "Cardcore sandbox environment."
     }
   ],
-  "security": [
+  "tags": [
     {
-      "bearerAuth": []
+      "name": "Institution OAuth"
+    },
+    {
+      "name": "Institution Cards"
+    },
+    {
+      "name": "Institution Users"
+    },
+    {
+      "name": "Utility"
     }
   ],
   "paths": {
-    "/plants": {
+    "/institutions/oauth/applications": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
+        "tags": [
+          "Institution OAuth"
         ],
+        "summary": "List OAuth Applications",
+        "description": "List OAuth applications for the authenticated institution.",
+        "operationId": "get-list-oauth-applications",
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "List OAuth Applications completed successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "20"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "banking"
+          },
+          {
+            "name": "isVerified",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "true"
+          },
+          {
+            "name": "isOfficial",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "false"
+          },
+          {
+            "name": "grantType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "client_credentials"
+          }
+        ]
+      }
+    },
+    "/institutions/oauth/{institutionId}": {
+      "delete": {
+        "tags": [
+          "Institution OAuth"
+        ],
+        "summary": "Delete OAuth Application",
+        "description": "Delete an OAuth authorization/application by id.",
+        "operationId": "delete-delete-oauth-application",
+        "responses": {
+          "204": {
+            "description": "Delete OAuth Application completed successfully."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "institutionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: institutionId."
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Institution OAuth"
+        ],
+        "summary": "Update OAuth Application",
+        "description": "Update an OAuth application.",
+        "operationId": "put-update-oauth-application",
+        "responses": {
+          "200": {
+            "description": "Update OAuth Application completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "institutionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: institutionId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "websiteUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "scopes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "websiteUrl",
+                  "scopes"
+                ]
+              },
+              "example": {
+                "name": "Updated Banking App",
+                "description": "Updated description",
+                "websiteUrl": "https://myapp.com",
+                "scopes": [
+                  "READ"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/oauth/create": {
+      "post": {
+        "tags": [
+          "Institution OAuth"
+        ],
+        "summary": "Create OAuth Application",
+        "description": "Register an OAuth application for an institution.",
+        "operationId": "post-create-oauth-application",
+        "responses": {
+          "201": {
+            "description": "Create OAuth Application completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "publicKey": {
+                    "type": "string"
+                  },
+                  "scopes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "grantType": {
+                    "type": "string"
+                  },
+                  "websiteUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "iconUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "isOfficial": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "publicKey",
+                  "scopes",
+                  "grantType",
+                  "websiteUrl",
+                  "iconUrl",
+                  "isOfficial"
+                ]
+              },
+              "example": {
+                "name": "My Banking App",
+                "description": "Banking application for managing customer accounts and transactions",
+                "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkq...\n-----END PUBLIC KEY-----",
+                "scopes": [
+                  "READ",
+                  "WRITE"
+                ],
+                "grantType": "client_credentials",
+                "websiteUrl": "https://myapp.com",
+                "iconUrl": "https://myapp.com/icon.png",
+                "isOfficial": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/oauth/token": {
+      "post": {
+        "tags": [
+          "Institution OAuth"
+        ],
+        "summary": "OAuth Token",
+        "description": "Exchange client assertion for access token. Also captures `{{oauthToken}}` and `{{oauthRefreshToken}}`.",
+        "operationId": "post-oauth-token",
+        "responses": {
+          "201": {
+            "description": "OAuth Token completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string"
+                  },
+                  "institutionId": {
+                    "type": "string"
+                  },
+                  "client_assertion_type": {
+                    "type": "string"
+                  },
+                  "client_assertion": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "institutionId",
+                  "client_assertion_type",
+                  "client_assertion"
+                ]
+              },
+              "example": {
+                "grant_type": "client_credentials",
+                "institutionId": "{{institutionId}}",
+                "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+                "client_assertion": "paste-client-assertion-jwt-here"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/oauth/authorization": {
+      "post": {
+        "tags": [
+          "Institution OAuth"
+        ],
+        "summary": "Create OAuth Authorization",
+        "description": "Create an OAuth authorization code grant authorization.",
+        "operationId": "post-create-oauth-authorization",
+        "responses": {
+          "201": {
+            "description": "Create OAuth Authorization completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "institutionId": {
+                    "type": "string"
+                  },
+                  "redirectUri": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "responseType": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "institutionId",
+                  "redirectUri",
+                  "responseType",
+                  "state"
+                ]
+              },
+              "example": {
+                "institutionId": "{{institutionId}}",
+                "redirectUri": "https://example.com/callback",
+                "responseType": "code",
+                "state": "xyz123"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/cards": {
+      "post": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Create Card",
+        "description": "Create a single card.",
+        "operationId": "post-create-card",
+        "responses": {
+          "201": {
+            "description": "Create Card completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cardProgram": {
+                    "type": "string"
+                  },
+                  "referenceCode": {
+                    "type": "string"
+                  },
+                  "pinEnabled": {
+                    "type": "boolean"
+                  },
+                  "defaultPIN": {
+                    "type": "object",
+                    "properties": {
+                      "encryptedData": {
+                        "type": "string"
+                      },
+                      "publicKeyFingerprint": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "encryptedData",
+                      "publicKeyFingerprint"
+                    ]
+                  },
+                  "account": {
+                    "type": "object",
+                    "properties": {
+                      "currency": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "currency",
+                      "type",
+                      "number"
+                    ]
+                  },
+                  "customer": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "middleName": {
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "type": "string"
+                      },
+                      "emailAddress": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      },
+                      "honorific": {
+                        "type": "string"
+                      },
+                      "gender": {
+                        "type": "string"
+                      },
+                      "dateOfBirth": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "address": {
+                        "type": "object",
+                        "properties": {
+                          "line1": {
+                            "type": "string"
+                          },
+                          "line2": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "postalCode": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "line1",
+                          "line2",
+                          "city",
+                          "state",
+                          "country",
+                          "postalCode"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "firstName",
+                      "middleName",
+                      "lastName",
+                      "emailAddress",
+                      "phoneNumber",
+                      "honorific",
+                      "gender",
+                      "dateOfBirth",
+                      "address"
+                    ]
+                  }
+                },
+                "required": [
+                  "cardProgram",
+                  "referenceCode",
+                  "pinEnabled",
+                  "defaultPIN",
+                  "account",
+                  "customer"
+                ]
+              },
+              "example": {
+                "cardProgram": "{{cardProgramId}}",
+                "referenceCode": "CARD123456",
+                "pinEnabled": true,
+                "defaultPIN": {
+                  "encryptedData": "7f8d92h3k4j5l6",
+                  "publicKeyFingerprint": "a884d7744252e1ec674983a91e6"
+                },
+                "account": {
+                  "currency": "NGN",
+                  "type": "default",
+                  "number": "1234567890"
+                },
+                "customer": {
+                  "firstName": "John",
+                  "middleName": "Robert",
+                  "lastName": "Doe",
+                  "emailAddress": "john.doe@example.com",
+                  "phoneNumber": "+2341234567890",
+                  "honorific": "Mr",
+                  "gender": "M",
+                  "dateOfBirth": "1990-01-01T00:00:00.000Z",
+                  "address": {
+                    "line1": "123 Main Street",
+                    "line2": "Apt 4B",
+                    "city": "Lagos",
+                    "state": "Lagos",
+                    "country": "Nigeria",
+                    "postalCode": "100001"
                   }
                 }
               }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
+          }
+        }
+      }
+    },
+    "/institutions/cards/{cardId}/activate": {
+      "get": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Activate Card",
+        "description": "Activate a card.",
+        "operationId": "get-activate-card",
+        "responses": {
+          "200": {
+            "description": "Activate Card completed successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             }
           }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ]
+      }
+    },
+    "/institutions/cards/{cardId}/deactivate": {
+      "get": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Deactivate Card",
+        "description": "Deactivate a card.",
+        "operationId": "get-deactivate-card",
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Deactivate Card completed successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             }
-          },
-          "400": {
-            "description": "unexpected error",
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ]
+      }
+    },
+    "/institutions/cards/pin/{cardId}/change": {
+      "put": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Change Card PIN",
+        "description": "Change card PIN using encrypted pin blocks.",
+        "operationId": "put-change-card-pin",
+        "responses": {
+          "200": {
+            "description": "Change Card PIN completed successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "oldPIN": {
+                    "type": "object",
+                    "properties": {
+                      "encryptedData": {
+                        "type": "string"
+                      },
+                      "publicKeyFingerprint": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "encryptedData",
+                      "publicKeyFingerprint"
+                    ]
+                  },
+                  "newPIN": {
+                    "type": "object",
+                    "properties": {
+                      "encryptedData": {
+                        "type": "string"
+                      },
+                      "publicKeyFingerprint": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "encryptedData",
+                      "publicKeyFingerprint"
+                    ]
+                  }
+                },
+                "required": [
+                  "oldPIN",
+                  "newPIN"
+                ]
+              },
+              "example": {
+                "oldPIN": {
+                  "encryptedData": "7f8d92h3k4j5l6",
+                  "publicKeyFingerprint": "a884d7744252e1ec674983a91e6"
+                },
+                "newPIN": {
+                  "encryptedData": "9f8d92h3k4j5l6",
+                  "publicKeyFingerprint": "a884d7744252e1ec674983a91e6"
                 }
               }
             }
@@ -96,121 +805,1003 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
+    "/institutions/cards/pin/{cardId}/reset": {
+      "put": {
+        "tags": [
+          "Institution Cards"
         ],
+        "summary": "Reset Card PIN",
+        "description": "Reset card PIN.",
+        "operationId": "put-reset-card-pin",
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Reset Card PIN completed successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "newPIN": {
+                    "type": "object",
+                    "properties": {
+                      "encryptedData": {
+                        "type": "string"
+                      },
+                      "publicKeyFingerprint": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "encryptedData",
+                      "publicKeyFingerprint"
+                    ]
+                  }
+                },
+                "required": [
+                  "newPIN"
+                ]
+              },
+              "example": {
+                "newPIN": {
+                  "encryptedData": "9f8d92h3k4j5l6",
+                  "publicKeyFingerprint": "a884d7744252e1ec674983a91e6"
                 }
               }
             }
           }
         }
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+    },
+    "/institutions/cards/{cardId}/renew": {
+      "put": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Renew Card",
+        "description": "Renew/replace a card.",
+        "operationId": "put-renew-card",
+        "responses": {
+          "200": {
+            "description": "Renew Card completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
               }
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expiration": {
+                    "type": "string"
+                  },
+                  "renewReason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "expiration",
+                  "renewReason"
+                ]
+              },
+              "example": {
+                "expiration": "202705",
+                "renewReason": "RENEW"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/cards/{cardId}/digitization": {
+      "get": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Get Digitization Code",
+        "description": "Get card digitization code.",
+        "operationId": "get-get-digitization-code",
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Get Digitization Code completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Update Card Digitization",
+        "description": "Enable or disable card digitization.",
+        "operationId": "put-update-card-digitization",
+        "responses": {
+          "200": {
+            "description": "Update Card Digitization completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enableDigitization": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "enableDigitization"
+                ]
+              },
+              "example": {
+                "enableDigitization": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/cards/{cardId}/customer": {
+      "put": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Update Card Customer",
+        "description": "Update cardholder details.",
+        "operationId": "put-update-card-customer",
+        "responses": {
+          "200": {
+            "description": "Update Card Customer completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "middleName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "emailAddress": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "dateOfBirth": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "line1": {
+                        "type": "string"
+                      },
+                      "line2": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      },
+                      "postalCode": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "line1",
+                      "line2",
+                      "city",
+                      "state",
+                      "country",
+                      "postalCode"
+                    ]
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "middleName",
+                  "lastName",
+                  "emailAddress",
+                  "phoneNumber",
+                  "dateOfBirth",
+                  "address"
+                ]
+              },
+              "example": {
+                "firstName": "John",
+                "middleName": "Robert",
+                "lastName": "Doe",
+                "emailAddress": "john.doe@example.com",
+                "phoneNumber": "+2341234567890",
+                "dateOfBirth": "1990-01-01T00:00:00.000Z",
+                "address": {
+                  "line1": "123 Main Street",
+                  "line2": "Apt 4B",
+                  "city": "Lagos",
+                  "state": "Lagos",
+                  "country": "Nigeria",
+                  "postalCode": "100001"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/cards/enroll2fa": {
+      "post": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Enroll Cards 2FA",
+        "description": "Enroll one or more cards into 2FA.",
+        "operationId": "post-enroll-cards-2fa",
+        "responses": {
+          "201": {
+            "description": "Enroll Cards 2FA completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cardIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "cardIds"
+                ]
+              },
+              "example": {
+                "cardIds": [
+                  "{{cardId}}"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/cards/{cardId}/default-pin": {
+      "get": {
+        "tags": [
+          "Institution Cards"
+        ],
+        "summary": "Get Default PIN",
+        "description": "Fetch the card default PIN payload.",
+        "operationId": "get-get-default-pin",
+        "responses": {
+          "200": {
+            "description": "Get Default PIN completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: cardId."
+          }
+        ]
+      }
+    },
+    "/institutions/users/{institutionUserId}/update": {
+      "put": {
+        "tags": [
+          "Institution Users"
+        ],
+        "summary": "Update Institution User",
+        "description": "Update an institution user.",
+        "operationId": "put-update-institution-user",
+        "responses": {
+          "200": {
+            "description": "Update Institution User completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "institutionUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: institutionUserId."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "emailAddress": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "isBlocked": {
+                    "type": "boolean"
+                  },
+                  "roles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string"
+                        },
+                        "permissions": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "permissions"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "emailAddress",
+                  "phoneNumber",
+                  "status",
+                  "isBlocked",
+                  "roles"
+                ]
+              },
+              "example": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "emailAddress": "john.doe@examplebank.com",
+                "phoneNumber": "+1234567890",
+                "status": "active",
+                "isBlocked": false,
+                "roles": [
+                  {
+                    "role": "INSTITUTION_USER",
+                    "permissions": [
+                      "read:user",
+                      "update:user"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/users/invite": {
+      "post": {
+        "tags": [
+          "Institution Users"
+        ],
+        "summary": "Invite Institution User",
+        "description": "Invite an institution user.",
+        "operationId": "post-invite-institution-user",
+        "responses": {
+          "201": {
+            "description": "Invite Institution User completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "emailAddress": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "roles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string"
+                        },
+                        "permissions": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "permissions"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "emailAddress",
+                  "phoneNumber",
+                  "roles"
+                ]
+              },
+              "example": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "emailAddress": "john.doe@examplebank.com",
+                "phoneNumber": "+1234567890",
+                "roles": [
+                  {
+                    "role": "INSTITUTION_USER",
+                    "permissions": [
+                      "read:user"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/institutions/users/{institutionUserId}/resend-invitation": {
+      "get": {
+        "tags": [
+          "Institution Users"
+        ],
+        "summary": "Resend Institution User Invitation",
+        "description": "Resend an institution user invitation.",
+        "operationId": "get-resend-institution-user-invitation",
+        "responses": {
+          "200": {
+            "description": "Resend Institution User Invitation completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "institutionUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Path parameter: institutionUserId."
+          }
+        ]
+      }
+    },
+    "/institutions/users/permissions": {
+      "get": {
+        "tags": [
+          "Institution Users"
+        ],
+        "summary": "Get Institution Permissions",
+        "description": "Public endpoint returning available institution permissions.",
+        "operationId": "get-get-institution-permissions",
+        "responses": {
+          "200": {
+            "description": "Get Institution Permissions completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/util/banks": {
+      "get": {
+        "tags": [
+          "Utility"
+        ],
+        "summary": "Get Banks",
+        "description": "Public bank list.",
+        "operationId": "get-get-banks",
+        "responses": {
+          "200": {
+            "description": "Get Banks completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/util/name-enquiry": {
+      "post": {
+        "tags": [
+          "Utility"
+        ],
+        "summary": "Name Enquiry",
+        "description": "Public bank account name enquiry.",
+        "operationId": "post-name-enquiry",
+        "responses": {
+          "201": {
+            "description": "Name Enquiry completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bankCode": {
+                    "type": "string"
+                  },
+                  "accountNumber": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "bankCode",
+                  "accountNumber"
+                ]
+              },
+              "example": {
+                "bankCode": "000002",
+                "accountNumber": "0123456789"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/util/cards/import": {
+      "post": {
+        "tags": [
+          "Utility"
+        ],
+        "summary": "Import Card",
+        "description": "Import an existing card into the system. Requires `x-api-key`.",
+        "operationId": "post-import-card",
+        "responses": {
+          "201": {
+            "description": "Import Card completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "realId": {
+                    "type": "string"
+                  },
+                  "active": {
+                    "type": "boolean"
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "middleName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "address1": {
+                    "type": "string"
+                  },
+                  "address2": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "zip": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  },
+                  "birthDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "institutionId": {
+                    "type": "string"
+                  },
+                  "card": {
+                    "type": "object",
+                    "properties": {
+                      "expiration": {
+                        "type": "string"
+                      },
+                      "serviceCode": {
+                        "type": "string"
+                      },
+                      "cardProduct": {
+                        "type": "string"
+                      },
+                      "embossingName": {
+                        "type": "string"
+                      },
+                      "defaultPIN": {
+                        "type": "string"
+                      },
+                      "bin": {
+                        "type": "string"
+                      },
+                      "cardState": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "expiration",
+                      "serviceCode",
+                      "cardProduct",
+                      "embossingName",
+                      "defaultPIN",
+                      "bin",
+                      "cardState"
+                    ]
+                  },
+                  "returnSecure": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "realId",
+                  "active",
+                  "startDate",
+                  "endDate",
+                  "firstName",
+                  "lastName",
+                  "middleName",
+                  "email",
+                  "address1",
+                  "address2",
+                  "city",
+                  "state",
+                  "zip",
+                  "country",
+                  "birthDate",
+                  "phone",
+                  "institutionId",
+                  "card",
+                  "returnSecure"
+                ]
+              },
+              "example": {
+                "realId": "9511139210001000",
+                "active": true,
+                "startDate": "2025-04-24",
+                "endDate": "2028-04-30",
+                "firstName": "KADAVRA",
+                "lastName": "CARD",
+                "middleName": "TEST",
+                "email": "root@sudo.africa",
+                "address1": "43 Ademola Adetokunbo",
+                "address2": "Wuse II",
+                "city": "Abuja",
+                "state": "FCT",
+                "zip": "100001",
+                "country": "Nigeria",
+                "birthDate": "1990-01-01",
+                "phone": "2348061996040",
+                "institutionId": "00000000001",
+                "card": {
+                  "expiration": "202804",
+                  "serviceCode": "601",
+                  "cardProduct": "AfriGoPCard",
+                  "embossingName": "KADAVRA CARD",
+                  "defaultPIN": "XXXX",
+                  "bin": "5640325100",
+                  "cardState": "active"
+                },
+                "returnSecure": true
+              }
+            }
           }
         }
       }
     }
   },
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
       }
     }
   }

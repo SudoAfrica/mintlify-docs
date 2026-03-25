@@ -1,0 +1,32 @@
+---
+title: 'Authentication'
+description: 'Understand the authentication methods used across the Cardcore API.'
+---
+
+## Authentication methods
+
+Cardcore uses these main authentication patterns:
+
+- `Bearer {{institutionToken}}` for protected institution endpoints
+- `Bearer {{oauthToken}}` for OAuth-based user or scoped flows
+- `x-api-key: {{apiKey}}` for `Import Card`
+
+## OAuth flow
+
+To generate an OAuth access token, create an OAuth application, build a signed client assertion JWT, and exchange it for a token.
+
+Follow [Create OAuth](/get-started) for the full setup flow.
+
+## Header examples
+
+Institution token:
+
+```http
+Authorization: Bearer {{institutionToken}}
+```
+
+API key:
+
+```http
+x-api-key: {{apiKey}}
+```
